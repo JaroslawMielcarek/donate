@@ -1,27 +1,34 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <div class="container">
+  <Donate/>
+  </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+<script setup lang="ts">
+import Donate from './components/Donate.vue';
 
-export default defineComponent({
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-});
 </script>
 
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
+  white-space: pre-wrap;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  color: #51565c;
   margin-top: 60px;
+}
+button { 
+  border-radius: 4px; 
+  border: 1px solid lightgrey;
+  border-bottom: 2px solid lightgrey; 
+  color: #51565c;
+  background-color: transparent;
+  cursor: pointer;
+  font-weight: bold;
+  padding: .8em 1em;
+}
+.container {
+  max-width: 400px;
 }
 </style>
