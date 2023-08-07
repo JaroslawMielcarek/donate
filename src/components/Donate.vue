@@ -6,7 +6,7 @@
     </form>
   </dialog>
   <div class="cloud">
-    <p><span class="extra euro">{{ moneyNeeded - moneyDonated }}</span> still needed for this project</p>
+    <p><span class="extra euro">{{ difference }}</span> still needed for this project</p>
   </div>
   <progress :max="moneyNeeded" :value="moneyDonated"/>
   <div class="box">
@@ -14,7 +14,7 @@
     <p>Join the <span class="extra">{{ nrDonors }}</span> other donors who have already supported this project. Every euro helps.</p>
     <div class="buttons">
       <span class="currencyInput">{{ currency }}<input id="currency" type="number" @change="checkNumber" :value="donation" placeholder="50"/></span>
-      <button class="green" @click="donateNow">Give Now</button>
+      <button class="green" @click="donateNow" :disabled="isReached">Give Now</button>
     </div>
   </div>
   <div class="buttons">
@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, computed } from "vue"
 
 const currency = '€'
 const moneyNeeded = 1000
@@ -34,7 +34,9 @@ const nrDonors = ref<number>(42)
 const moneyDonated = ref<number>(100)
 
 const donation = ref<number>(50)
-const dialogMsg= ref<string>('')
+const dialogMsg = ref<string>('')
+const difference = computed(() => moneyNeeded - moneyDonated.value )
+const isReached = computed(() => moneyDonated.value >= moneyNeeded ) 
 
 function setModal (msg: string) {
   dialogMsg.value = msg
@@ -55,8 +57,14 @@ function checkNumber (val: Event) {
     return donation.value = 1000
   }
   if ( !Number.isInteger(value)) setModal("We accept round amounts only.\nYour donation will be set to " + currency + Math.floor(value) + ".")
+  donation.value = Math.floor(value)
 }
+
 function donateNow () {
+  if (donation.value > difference.value) {
+    setModal("Your donation is bigger than we need. We will reduce your donation to " + currency + difference.value)
+    return donation.value = difference.value
+  }
   moneyDonated.value += donation.value
   nrDonors.value++
 }
@@ -129,6 +137,11 @@ button.green {
   color: white; 
   background-color: rgb(20, 161, 20);
   border-bottom: 2px solid rgb(20, 161, 20);
+}
+button.green:disabled,
+button.green[disabled] {
+  background-color: rgb(72, 67, 67);
+  border-bottom: 2px solid rgb(72, 67, 67);
 }
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
