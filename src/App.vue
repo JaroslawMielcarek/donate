@@ -28,6 +28,13 @@ button {
   font-weight: bold;
   padding: .8em 1em;
 }
+button:active {
+  transform: scale(0.98);
+}
+button:disabled,
+button[disabled] {
+  background-color: rgb(72, 67, 67);
+}
 .container {
   max-width: 400px;
 }
