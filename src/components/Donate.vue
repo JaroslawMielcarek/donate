@@ -62,7 +62,7 @@ function checkNumber (val: Event) {
 
 function donateNow () {
   if (donation.value > difference.value) {
-    setModal("Your donation is bigger than we need. We will reduce your donation to " + currency + difference.value)
+    setModal("Your donation is bigger than we need.\nWe will reduce your donation to " + currency + difference.value + ".")
     return donation.value = difference.value
   }
   moneyDonated.value += donation.value
